@@ -75,6 +75,56 @@
             cursor: pointer;
         }
 
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            z-index: 2;
+            transform: translateY(-50%);
+            border: 0;
+            border-radius: 4px;
+            padding: 11px 8px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-size: 30px;
+            line-height: 1;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .modal-nav:hover,
+        .modal-nav:focus-visible {
+            background: rgba(0, 0, 0, 0.7);
+            outline: 2px solid #fff;
+        }
+
+        .modal-nav.previous {
+            left: 18px;
+        }
+
+        .modal-nav.next {
+            right: 18px;
+        }
+
+        @media (max-width: 600px) {
+            .modal-content {
+                max-width: 96%;
+                max-height: 84vh;
+            }
+
+            .modal-nav {
+                padding: 9px 6px;
+                font-size: 24px;
+            }
+
+            .modal-nav.previous {
+                left: 4px;
+            }
+
+            .modal-nav.next {
+                right: 4px;
+            }
+        }
+
         .image-info {
             position: absolute;
             bottom: 0;
@@ -503,21 +553,41 @@
     <!-- Modal for enlarged images -->
     <div id="imageModal" class="modal">
         <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
+        <button type="button" class="modal-nav previous" aria-label="Previous photo" onclick="changeImage(-1)">&#10094;</button>
+        <img class="modal-content" id="modalImage" alt="">
+        <button type="button" class="modal-nav next" aria-label="Next photo" onclick="changeImage(1)">&#10095;</button>
     </div>
 
     <a href="../" class="back-link">Back to Main Page</a>
 
     <script>
+        const galleryImages = Array.from(document.querySelectorAll('.gallery-item img'));
+        let currentImageIndex = 0;
+
         function openModal(imageSrc) {
             const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
+            const selectedIndex = galleryImages.findIndex(image => image.src === imageSrc);
+            currentImageIndex = selectedIndex === -1 ? 0 : selectedIndex;
             modal.style.display = 'block';
-            modalImg.src = imageSrc;
+            document.body.style.overflow = 'hidden';
+            showImage(currentImageIndex);
+        }
+
+        function showImage(index) {
+            currentImageIndex = (index + galleryImages.length) % galleryImages.length;
+            const selectedImage = galleryImages[currentImageIndex];
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = selectedImage.src;
+            modalImg.alt = selectedImage.alt;
+        }
+
+        function changeImage(direction) {
+            showImage(currentImageIndex + direction);
         }
 
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
+            document.body.style.overflow = '';
         }
 
         // Close modal when clicking outside the image
@@ -527,10 +597,19 @@
             }
         });
 
-        // Close modal with escape key
+        // Navigate with arrow keys and close with escape.
         document.addEventListener('keydown', function(e) {
+            const modalIsOpen = document.getElementById('imageModal').style.display === 'block';
+            if (!modalIsOpen) {
+                return;
+            }
+
             if (e.key === 'Escape') {
                 closeModal();
+            } else if (e.key === 'ArrowLeft') {
+                changeImage(-1);
+            } else if (e.key === 'ArrowRight') {
+                changeImage(1);
             }
         });
 
