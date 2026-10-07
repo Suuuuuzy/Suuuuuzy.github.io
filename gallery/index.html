@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery — Jianjia Yu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .gallery {
+            columns: 3;
+            column-gap: 8px;
+            padding: 8px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 8px;
+            break-inside: avoid;
+            width: 100%;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            z-index: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            margin: auto;
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .image-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: rgba(255, 255, 255, 0.8); /* Opaque white */
+            padding: 8px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .image-info {
+            opacity: 1;
+        }
+
+        .svg-icon {
+            width: 0.6em;
+            height: 0.6em;
+            font-size: var(--svg-icon-font-size, 24px);
+            vertical-align: bottom;
+            pointer-events: none;
+            flex-shrink: 0;
+            margin: var(--svg-icon-margin, 0);
+            fill: var(--svg-icon-fill, currentColor);
+        }
+
+        .back-link {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 10;
+            padding: 9px 13px;
+            border-radius: 4px;
+            background: rgba(0, 45, 114, 0.92);
+            color: #fff;
+            text-decoration: none;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        .back-link:hover,
+        .back-link:focus {
+            background: #002d72;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    
+    <div class="gallery">
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="baltimore.jpg" 
+                     alt="baltimore.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    baltimore.jpg<br>3489x1920 | 5.23MB | Sunday, May 14, 2023 7:40 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> iPhone 13  |  <em> F/1.6 </em> |  1/1200  |  5.1mm  |  ISO 50                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="Magnolia.jpg" 
+                     alt="Magnolia.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    Magnolia.jpg<br>3586x4680 | 14.19MB | Friday, April 4, 2025 10:18 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/5.0 </em> |  1/13  |  59.0mm  |  ISO 6400                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="cancun.JPG" 
+                     alt="cancun.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    cancun.JPG<br>6240x4160 | 14.74MB | Saturday, June 10, 2023 3:04 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> X-S10  |  <em> F/8.0 </em> |  1/1800  |  35.0mm  |  ISO 2000                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="cherry-picking.JPG" 
+                     alt="cherry-picking.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    cherry-picking.JPG<br>3072x3840 | 1.59MB | Sunday, June 1, 2025 5:59 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> BVL-AN16  |  <em> F/4.5 </em> |  1/420  |  15.4mm  |                  </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="falling-water.jpg" 
+                     alt="falling-water.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    falling-water.jpg<br>2731x4096 | 5.17MB | Sunday, June 9, 2024 4:10 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/4.0 </em> |  1/160  |  28.0mm  |  ISO 640                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="falling-water1.jpg" 
+                     alt="falling-water1.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    falling-water1.jpg<br>4096x2731 | 4.31MB | Sunday, June 9, 2024 4:06 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/5.0 </em> |  1/60  |  28.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="goat.JPG" 
+                     alt="goat.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    goat.JPG<br>6000x4000 | 7.69MB | Saturday, March 29, 2025 2:23 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/6.3 </em> |  1/200  |  70.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="grand_wailea.JPG" 
+                     alt="grand_wailea.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    grand_wailea.JPG<br>6000x4000 | 11MB | Sunday, December 15, 2024 3:42 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/11.0 </em> |  1/125  |  28.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="hurrican_ridge_1.jpg" 
+                     alt="hurrican_ridge_1.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    hurrican_ridge_1.jpg<br>6000x4000 | 10.98MB | Friday, February 6, 2026 2:46 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/11.0 </em> |  1/200  |  60.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="hurrican_ridge_2.JPG" 
+                     alt="hurrican_ridge_2.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    hurrican_ridge_2.JPG<br>6000x4000 | 4.03MB | Friday, February 6, 2026 2:48 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/11.0 </em> |  1/200  |  28.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="kona.png" 
+                     alt="kona.png"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    kona.png<br>3520x2628 | 14.05MB                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="lake_cresent.JPG" 
+                     alt="lake_cresent.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    lake_cresent.JPG<br>6000x4000 | 3.84MB | Friday, February 6, 2026 5:22 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/7.1 </em> |  1/100  |  42.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="madweb2025.jpeg" 
+                     alt="madweb2025.jpeg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    madweb2025.jpeg<br>2048x1151 | 392.17KB                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="maui-hana.JPG" 
+                     alt="maui-hana.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    maui-hana.JPG<br>6000x4000 | 9.34MB | Monday, December 16, 2024 7:08 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/8.0 </em> |  1/320  |  32.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="maui-road.jpg" 
+                     alt="maui-road.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    maui-road.jpg<br>5337x3558 | 2.1MB | Friday, December 13, 2024 10:04 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/7.1 </em> |  1/80  |  30.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="maui-southern-point.JPG" 
+                     alt="maui-southern-point.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    maui-southern-point.JPG<br>6000x4000 | 8.31MB | Friday, December 13, 2024 9:25 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/11.0 </em> |  1/125  |  42.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="maui.JPG" 
+                     alt="maui.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    maui.JPG<br>6000x4000 | 11.25MB | Monday, December 16, 2024 7:10 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/11.0 </em> |  1/250  |  70.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="maui_top.jpg" 
+                     alt="maui_top.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    maui_top.jpg<br>954x1427 | 188.97KB | Saturday, December 14, 2024 9:36 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/11.0 </em> |  1/250  |  70.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="mauna-kea.JPG" 
+                     alt="mauna-kea.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    mauna-kea.JPG<br>6000x4000 | 4.59MB | Saturday, December 14, 2024 10:41 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/4.5 </em> |  1/60  |  29.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="mauna_kea-.JPG" 
+                     alt="mauna_kea-.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    mauna_kea-.JPG<br>6000x4000 | 5.91MB | Wednesday, December 11, 2024 9:22 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/10.0 </em> |  1/100  |  44.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="mauna_kea.png" 
+                     alt="mauna_kea.png"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    mauna_kea.png<br>3536x2648 | 6.21MB                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="mauna_kea_.JPG" 
+                     alt="mauna_kea_.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    mauna_kea_.JPG<br>6000x4000 | 3.41MB | Wednesday, December 11, 2024 10:55 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/4.0 </em> |  1/60  |  28.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="niagara-falls.jpg" 
+                     alt="niagara-falls.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    niagara-falls.jpg<br>3024x4032 | 4.29MB | Sunday, August 28, 2022 6:43 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> iPhone 13  |  <em> F/1.6 </em> |  1/1009  |  5.1mm  |  ISO 50                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="ruby_beach.JPG" 
+                     alt="ruby_beach.JPG"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    ruby_beach.JPG<br>4000x6000 | 19.55MB | Friday, February 13, 2026 1:04 AM<em> F/10.0 </em> |  1/400  |  60.0mm  |  ISO 500                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="sakura.jpg" 
+                     alt="sakura.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    sakura.jpg<br>6000x4000 | 16.3MB | Wednesday, March 20, 2024 5:43 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/8.0 </em> |  1/320  |  70.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="sakura2.jpg" 
+                     alt="sakura2.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    sakura2.jpg<br>6000x4000 | 15.47MB | Thursday, March 21, 2024 7:09 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/4.0 </em> |  1/160  |  33.0mm  |  ISO 125                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="tahoe.jpg" 
+                     alt="tahoe.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    tahoe.jpg<br>4096x2731 | 4.07MB | Saturday, June 28, 2025 4:24 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/11.0 </em> |  1/200  |  70.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="tromso-orcinus-orca.jpg" 
+                     alt="tromso-orcinus-orca.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    tromso-orcinus-orca.jpg<br>3109x2581 | 6.32MB | Saturday, December 2, 2023 7:50 AM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/3.5 </em> |  1/160  |  28.0mm  |  ISO 1600                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="tromso.jpg" 
+                     alt="tromso.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    tromso.jpg<br>6000x4000 | 25.91MB | Saturday, December 2, 2023 3:43 AM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/5.0 </em> |  1/13  |  52.0mm  |  ISO 6400                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="tromso2.jpg" 
+                     alt="tromso2.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    tromso2.jpg<br>5997x3998 | 13.13MB | Saturday, December 2, 2023 7:27 AM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/5.6 </em> |  1/160  |  70.0mm  |  ISO 1600                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone1.jpg" 
+                     alt="yelo_stone1.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone1.jpg<br>4096x2513 | 2.23MB | Saturday, August 26, 2023 8:15 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> iPhone 13  |  <em> F/1.6 </em> |  1/120  |  5.1mm  |  ISO 40                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone10.jpg" 
+                     alt="yelo_stone10.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone10.jpg<br>4096x2927 | 3.76MB | Saturday, August 26, 2023 6:29 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> Pixel 7 Pro  |  <em> F/2.2 </em> |  1/580  |  2.0mm  |  ISO 42                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone11.jpg" 
+                     alt="yelo_stone11.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone11.jpg<br>4096x2731 | 2.4MB | Saturday, August 26, 2023 6:04 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/11.0 </em> |  1/125  |  28.0mm  |  ISO 100                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone2.jpg" 
+                     alt="yelo_stone2.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone2.jpg<br>4096x2731 | 4.86MB | Sunday, August 27, 2023 8:21 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/5.6 </em> |  1/400  |  69.0mm  |  ISO 400                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone3.jpg" 
+                     alt="yelo_stone3.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone3.jpg<br>2780x2020 | 3.16MB | Saturday, August 26, 2023 11:39 AM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/5.6 </em> |  1/160  |  70.0mm  |  ISO 320                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone4.jpg" 
+                     alt="yelo_stone4.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone4.jpg<br>4096x2731 | 3.84MB | Monday, August 28, 2023 4:51 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/3.5 </em> |  1/8000  |  28.0mm  |  ISO 400                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone5.jpg" 
+                     alt="yelo_stone5.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone5.jpg<br>4096x3084 | 2.19MB | Sunday, August 27, 2023 5:49 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> Pixel 7 Pro  |  <em> F/3.5 </em> |  1/280  |  19.0mm  |  ISO 181                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone6.jpg" 
+                     alt="yelo_stone6.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone6.jpg<br>4096x2731 | 2.73MB | Sunday, August 27, 2023 11:38 AM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> Canon PowerShot G1 X Mark III  |  <em> F/5.6 </em> |  1/200  |  45.0mm  |  ISO 200                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone7.jpg" 
+                     alt="yelo_stone7.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone7.jpg<br>4096x3072 | 2.66MB | Tuesday, August 29, 2023 8:06 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> iPhone 13  |  <em> F/1.6 </em> |  1/160  |  5.1mm  |  ISO 64                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone8.jpg" 
+                     alt="yelo_stone8.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone8.jpg<br>4096x3072 | 3.12MB | Monday, August 28, 2023 12:52 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> iPhone 13  |  <em> F/1.6 </em> |  1/8400  |  5.1mm  |  ISO 50                </div>
+            </div>
+                                <div class="gallery-item">
+                <img loading="lazy" decoding="async" src="yelo_stone9.jpg" 
+                     alt="yelo_stone9.jpg"
+                     onclick="openModal(this.src)">
+                <div class="image-info">
+                    yelo_stone9.jpg<br>4096x2731 | 2.26MB | Sunday, August 27, 2023 2:26 PM<br>  <svg viewBox="0 0 24 24" class="svg-icon svg-camera">
+                        <path class="svg-path-camera" d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z"></path>
+                    </svg> ILCE-7M2  |  <em> F/13.0 </em> |  1/320  |  70.0mm  |  ISO 400                </div>
+            </div>
+            </div>
+
+    <!-- Modal for enlarged images -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <a href="../" class="back-link">Back to Main Page</a>
+
+    <script>
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'block';
+            modalImg.src = imageSrc;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside the image
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Add responsive columns based on screen width
+        function adjustColumns() {
+            const gallery = document.querySelector('.gallery');
+            if (window.innerWidth < 600) {
+                gallery.style.columns = '3';
+            } else if (window.innerWidth < 1024) {
+                gallery.style.columns = '2';
+            } else {
+                gallery.style.columns = '3';
+            }
+        }
+        
+        window.addEventListener('resize', adjustColumns);
+        adjustColumns();
+    </script>
+</body>
+</html>
