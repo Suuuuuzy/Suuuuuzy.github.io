@@ -1,0 +1,294 @@
+header{width:100%;height:50px;margin-top:0px;text-align:center;background-color:#002D72;position:fixed;z-index:2}
+body{width:100%;margin:0px;padding:0;color:#000;-webkit-transition:all;-moz-transition:all;-ms-transition:all;-o-transition:all;transition:all;font-family:"Open Sans",
+Segoe,"Segoe UI",
+"Lucida Sans Unicode","Lucida Grande",
+"Avenir","Seravek","Ubuntu",
+"DejaVu Sans","Trebuchet MS",Verdana,Arial,sans-serif;font-size:15.4px;text-align:left;font-weight:400;line-height:1.65;}
+#h1,h2,h3,h4,h5,h6,div.title,div.ftheader,span.venue,span.highlight{font-weight:600}
+
+div.info{padding-left:20px}
+
+
+.blue,
+.blue a,
+.blue a:link,
+.blue a:visited {
+  color: #527bbd;
+}
+
+
+div.name {
+	color: #527bbd;
+	text-decoration: none;
+	margin-top: 0.7em;
+	margin-bottom: 0.5em;
+	padding-bottom: 0.2em;
+	line-height: 1.0;
+	padding-top: 0.5em;
+	/* border-bottom: 1px solid #aaaaaa; */
+	font-size: 165%;
+	padding-bottom: 0.3em;
+}
+h1, h2, h3 {
+	color: #527bbd;
+	text-decoration: none;
+	margin-top: 0.7em;
+	margin-bottom: 0.5em;
+	padding-bottom: 0.2em;
+	line-height: 1.0;
+	padding-top: 0.5em;
+	border-bottom: 1px solid #aaaaaa;
+}
+
+h1 {
+	font-size: 165%;
+	padding-bottom: 0.3em;
+}
+
+h2 {
+	padding-top: 0.8em;
+	font-size: 125%;
+}
+
+h2 + h3 {
+    padding-top: 0.2em;
+}
+
+h3 {
+	font-size: 110%;
+	border-bottom: none;
+}
+
+ul,ol,dl{float:left;margin:0;padding:5px 10px 6px 30px;width:calc(100% - 30px)}
+div.container a:link,
+div.container a:visited{color:#527bbd;text-decoration:none}
+div.ftheader a:link,
+div.ftheader a:visited,
+div.ftsubheader a:link,
+div.ftsubheader a:visited{color:#FFFFFF;text-decoration:none}
+div.title a:link,
+div.title a:visited{color:#000000}
+div.authors a:link,
+div.authors a:visited{color:#777777}
+div.content a:hover,
+div.content a:hover div.text,
+div.ftsubheader a:hover{text-decoration:underline}
+#span.jw{color:#000000;font-weight:600;text-decoration:underline}
+span.jw{color:#000000;font-weight:600}
+span.ym{color:#000000;font-weight:600;text-decoration:underline}
+#span.ym{color:#000000;font-weight:600}
+span.author{white-space:nowrap}
+div.outercontainer{text-align:center}
+div.header,div.container,div.content,div.img,div.text{display:inline-block;zoom:1;display*:inline;text-align:left;margin-left:auto;margin-right:auto;vertical-align:middle;max-width:900px}
+div.header,div.container{min-width:330px}
+div.img,div.text{padding-left:0px;padding-right:10px}
+div.text.info{padding-left:30px;padding-right:10px}
+div.header{line-height:50px}
+div.ftheader,div.ftsubheader{display:inline-block;color:#FFF}
+div.ftheader{float:left;padding-left:15px;font-size:1.17em}
+div.ftsubheader{float:right;padding-left:20px;padding-right:20px}
+div.outercontainer,div.content{padding-top:0px;padding-bottom:0px}
+div.container,div.content{width:100%}
+div.body{margin-top:50px}
+div.content{margin-bottom:10px}
+div.heading, div.front{text-align:left;position:relative;z-index:1}
+div.heading div.img{padding:30px 30px 30px 10px;max-width:30%}
+#div.heading div.img img{width:320px} 
+div.heading span.tag{padding-right:15px}
+div.heading ul{padding-bottom:0px}
+div.publication{padding-top:0px;padding-bottom:20px}
+div.publication div.img{max-width:300px;padding-right:0px;padding-top:5px}
+div.publication div.text{text-align:left;padding-top:0px;vertical-align:top}
+div.authors{font-size:100%;color:#777777}
+span.venue,span.highlight,
+div.publication span.tag{padding-right:0px;font-size:100%}
+span.highlight,
+span.highlight a:link,
+span.highlight a:visited{color:#BB2222}
+span.fullvenue{padding-left:8px}
+div.anchor{border-top:50px solid transparent;margin-top:-50px}
+div.recruit{display:none}
+div.people div.title{padding-left:12px}
+div.people li{float:left;width:350px}
+div.people li:nth-child(odd){padding-right:100px}
+@media only screen and (max-width: 599px) {
+    div.ftsubheader{padding-left:10px;padding-right:10px}
+    div.heading div.img{padding-right:80px}
+    div.publication div.img{display:none}
+    div.publication div.text{text-align:left}
+    div.content,div.publication{padding-top:0px;padding-bottom:10px}
+                                div.people li:nth-child(odd){padding-right:0px}
+    body{font-size:90%}
+}
+.right-align {
+    text-align:right; padding-right:30px;
+}
+div.avatar {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+div.avatar img {
+  width: 100%;         /* fill the wrapper */
+  height: 100%;
+  object-fit: cover;   /* crop without distortion */
+  display: block;
+}
+
+
+
+/* Body text rhythm */
+div.text p {
+  margin-top: 0;
+  margin-bottom: 0.85em;
+}
+
+div.text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Contact block: single lines, so keep them tight */
+div.text.info p {
+  margin-bottom: 0.35em;
+}
+
+/* Intro paragraph: the rule that used to come from an empty <h2> spacer */
+div.text.topic {
+  border-top: 1px solid #aaaaaa;
+  margin-top: 1.2em;
+  padding-top: 1.2em;
+}
+
+div.text.topic p {
+  line-height: 1.75;
+}
+
+/* Non-link accents: readable, but not the link blue */
+div.impact {
+  color: #555;
+  margin-top: 0.15em;
+}
+
+div.talk-venue {
+  color: #777;
+}
+
+/* Section spacing */
+.section {
+  width: 100%;
+  border: 0px;
+  border-spacing: 0px;
+  border-collapse: separate;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 0px;
+  scroll-margin-top: 60px;
+}
+
+#news {
+  margin-top: -20px;
+}
+
+.section-header {
+  margin-bottom: 10px;
+}
+
+/* News section */
+.news-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+  display: block;
+}
+
+.news-list {
+  list-style-type: disc;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.news-list li {
+  padding-bottom: 0;
+  line-height: 1.65;
+  margin-bottom: 0.7em;
+}
+
+.news-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Scrollbar styling (Chrome/Safari) */
+.news-scroll::-webkit-scrollbar,
+.cve-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.news-scroll::-webkit-scrollbar-thumb,
+.cve-scroll::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 4px;
+}
+
+.news-scroll::-webkit-scrollbar-track,
+.cve-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* CVE section */
+.cve-scroll {
+  max-height: 190px;
+  overflow-y: auto;
+  padding-right: 10px;
+  display: block;
+}
+
+.cve-scroll table {
+  display: block;
+  width: 100%;
+}
+
+.cve-scroll tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.cve-scroll td {
+  padding-bottom: 6px;
+  line-height: 1.65;
+}
+
+/* Misc section */
+.misc-list {
+  list-style-type: disc;
+  margin: 0;
+  padding-left: 20px;
+  padding-right: 30px;
+}
+
+.misc-list li {
+  padding-bottom: 0;
+  line-height: 1.65;
+  margin-bottom: 0.5em;
+  text-align: left;
+}
+
+.misc-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Publication / talk entries: the trailing empty <p> is the entry separator */
+.section td > p {
+  margin: 0 0 1.1em 0;
+}
+
+.section td > b {
+  line-height: 1.45;
+}
+
+.section div.authors {
+  line-height: 1.5;
+}

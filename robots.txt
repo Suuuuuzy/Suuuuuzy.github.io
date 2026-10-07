@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://Suuuuuzy.github.io/sitemap.xml
